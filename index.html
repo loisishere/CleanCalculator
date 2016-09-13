@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scaleable=no">
+    <title>Calculator 1.0</title>
+    
+    <script src="js/index.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    
+<header>
+  <h2>Calculator</h2>
+ <!-- <p>Takes key-strokes and button presses<br><strong>(click in the input box to begin)</strong></p>-->
+</header>
+      <div class="inputDetails"></div>
+      <div class ="container">
+<button class="btns exp" data-calc="clear" onclick="btnClear()">CE</button><button class="btns exp" data-calc="add" onclick="btnExpPress('add')">+</button><button class="btns exp" data-calc="sub" onclick="btnExpPress('sub')">-</button><button class="btns exp" data-calc="multi" onclick="btnExpPress('multi')">*</button><button class="btns exp" data-calc="divide" onclick="btnExpPress('divide')">/</button><button class="btns" onclick="btnNumPress(7)">7</button><button class="btns" onclick="btnNumPress(8)">8</button><button class="btns" onclick="btnNumPress(9)">9</button><button class="btns" onclick="btnNumPress(4)">4</button><button class="btns" onclick="btnNumPress(5)">5</button><button class="btns" onclick="btnNumPress(6)">6</button><button class="btns" onclick="btnNumPress(1)">1</button><button class="btns" onclick="btnNumPress(2)">2</button><button class="btns" onclick="btnNumPress(3)">3</button>
+  <div>
+<button class="btns ent" data-calc="enter" onclick="enterButton('enter')">Enter</button>
+  </div>
+</div>
+        <div class = "history">
+<span></span>
+        </div>
+
+    
+    
+    
+  </body>
+</html>
