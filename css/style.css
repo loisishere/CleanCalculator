@@ -7,20 +7,22 @@ body{
   /*41444B, DFD8C8,CABFAB,52575d*/
 }
 .inputDetails{
+  border: none;
   border-bottom: 1px black solid;
   width:90%;
 display: inline-block;
   height:40px;
+       vertical-align: middle;
+    font-size: 45%;
+    background-color: #DFD8C8; 
 }
-
 h2{
   font-size: 75%;
   width: 100%;
   text-align: center;
 }
 .inputDetails{
-     vertical-align: middle;
-    font-size: 45%;
+
 }
 button{
   border: none;
@@ -30,7 +32,7 @@ button{
   height:50px;
   padding:0px;
   margin:0;
-  border:lightgray solid 1px;
+  border:darkgray solid 1px;
   color:#DFD8C8;
   background-color:#41444B;
   font-size:30%;
@@ -38,6 +40,21 @@ button{
 button[data-calc]{
   width:20%;
 }
+p{
+  font-size: 20%;
+}
 button[data-calc='enter']{
   width: 100%;
+}
+@media screen and (min-height:640px){
+  button{
+    height:70px;
+  }
+}
+
+@media screen and (min-height:960px){
+  button{
+    height:120px;
+    font-size:40%;
+  }
 }

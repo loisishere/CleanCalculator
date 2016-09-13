@@ -1,5 +1,6 @@
 (function(window){
   var ans = false;
+  var ansArr = [];
   var history = [];
   var exp={
     43:"add",
@@ -10,64 +11,58 @@
   window.btnNumPress = function(num){
 num = num.toString();
 var inputDetails = document.querySelector(".inputDetails");
+//check if there is an answer in the input field
 if(ans){
-inputDetails.innerHTML = num;
-ans=false;
+  inputDetails.value = ans.toString();
+  ans = false;
+  inputDetails.value = num;
 }else{
-  inputDetails.innerHTML += num;
+  if(inputDetails === ""){
+    inputDetails.value = num;
+  }else{
+inputDetails.value += num;
 }
-console.log(document.querySelector(".inputDetails"));
+}
 }
 window.btnExpPress = function(exp){
   var txt = document.querySelector("button[data-calc="+exp+"]");
 var inputDetails = document.querySelector(".inputDetails");
-var lastIdx = inputDetails.innerHTML.length -1;
-console.log(ans);
-if(inputDetails.innerHTML !==""){
- // ans=false;
-  if(Number(inputDetails.innerHTML[lastIdx])){
-inputDetails.innerHTML += txt.innerHTML;
+var lastIdx = inputDetails.value.length -1;
+ans = false;
+  if(isNaN(inputDetails.value[lastIdx])){
+      inputDetails.value = inputDetails.value.split('').slice(0,lastIdx).join('');
+  inputDetails.value += txt.textContent;
 }else{
-  inputDetails.innerHTML = inputDetails.innerHTML.split('').slice(0,lastIdx).join('');
-  inputDetails.innerHTML += txt.innerHTML;
+  inputDetails.value += txt.textContent;
 }
 }
-}
+
 window.btnClear = function(){
   var inputDetails = document.querySelector(".inputDetails");
-  inputDetails.innerHTML ="";
+  inputDetails.value ="";
   ans=false;
 }
 window.calculate = function(data){
   return (new Function('return ' + data)());
 }
-window.enterButton = function(ent){
+window.enterButton = function(){
   var inputDetails = document.querySelector(".inputDetails");
-  var lastIdx = inputDetails.innerHTML.length -1;
-  var total;
-  
-  total = calculate(inputDetails.innerHTML);
-  history.push({"expression":inputDetails.innerHTML,"answer":total});
-  inputDetails.textContent =  total;
-  ans = true;
+  var lastIdx = inputDetails.value.length -1;
+  ans = calculate(inputDetails.value);
+  history.push({"expression":inputDetails.value,"answer":ans});
+  inputDetails.value = ans;
 }
-// window.addEventListener('keypress',function(event){
-//   var e = event.keyCode;
-//   var str = event.key;
-  
-//   if(e >= 48 && e < 58){
-//   window.btnNumPress(str);
-// } else if(e >= 42 && e < 48){
-//   window.btnExpPress(exp[e]);
-// }
-// if(e === 13){
-//   var inputDetails = document.querySelector(".inputDetails");
-//    total = calculate(inputDetails.innerHTML);
-//    inputDetails.textContent =  total;
-//    ans = true;
-//   //enterButton(str.toLowerCase());
-  
- //}
-//})
+window.addEventListener('keypress',function(event){
+  var e = event.keyCode;
+  var str = event.key;
+  if(e >= 48 && e < 58){
+  window.btnNumPress(str);
+} else if(e >= 42 && e < 48){
+  window.btnExpPress(exp[e]);
+}
+if(e === 13){
+  window.enterButton("enter");  
+ }
+})
 })(window);
 
