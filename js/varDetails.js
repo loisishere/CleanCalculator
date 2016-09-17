@@ -1,5 +1,5 @@
 (function(window, document) {
-    // body
+    // has the details include the answer the history and the operators
     'use strict;'
 
     document.varDetails = {

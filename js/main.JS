@@ -3,9 +3,9 @@
     'use strict;'
     var input = document.varDetails;
 window.cleanCalculator = {
-    "buttonNumberPresses" : function(num,ans){
+    "buttonNumberPresses" : function(num){
        if(input.ans){
-           return ans;
+           input.inputText.value = input.ans;
        }else{
            input.inputText.value = num; 
             console.log(num);
