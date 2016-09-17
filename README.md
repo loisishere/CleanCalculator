@@ -5,6 +5,7 @@ The calculator also has history
 ##Files
 ###main.JS
 ####input object
+The input object contains details concerning the calculator like the answer and the history
 ####cleanCalculator object
-
+The cleanCalculator has the functions of the calculator
 
