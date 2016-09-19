@@ -1,6 +1,7 @@
 (function(document) {
     'use strict';
-    // has the details include the answer the history and the operators, this information should not be in the global calculator
+    /* Input variable holds key information for the calculator like the answer, the history and the expressions for the 
+    key and button presses*/
     var input = {
         "ans": false,
         "history": {
@@ -20,13 +21,16 @@
         },
         "dot": true
     };
+    /*Button variables for eventlisteners*/
     var btnExps = Array.from(input.inputText.parentNode.querySelectorAll('[data-expr]'));
     var btnNum = Array.from(input.inputText.parentNode.querySelectorAll('[data-calc]'));
     var enterBtn = input.inputText.parentNode.querySelector('[data-calcEnter]');
     var clearBtn = input.inputText.parentNode.querySelector('[data-clear]');
     var clearHistoryBtn = input.inputText.parentNode.parentNode.querySelector('[data-clearHistory]');
-    //Holds all the functions for the calculator including key presses and button presses
+
+    //The Clean calculator logic
     document.CleanCalculator = {
+            //Button function for the numbers
             "btnNumP": function(num) {
                 if (input.ans) {
                     input.inputText.value = num;
@@ -40,6 +44,7 @@
                     }
                 }
             },
+            //Button function for the operators
             "btnOptP": function(exp) {
                 var op = input.operatorButtons(exp);
                 var idx = input.inputText.value.length - 1;
@@ -59,10 +64,12 @@
                     }
                 }
             },
+            //evaluates the string express i.e. '3+4' will return 7
             "evaluateAnswer": function(str) {
                 str = str.split(/([*-+\/])/g);
                 return str.indexOf("*") > 0 ? Number(str[0]) * Number(str[2]) : str.indexOf("/") > 0 ? Number(str[0]) / Number(str[2]) : str.indexOf("+") > 0 ? Number(str[0]) + Number(str[2]) : str.indexOf("-") > 0 ? Number(str[0]) - Number(str[2]) : null;
             },
+            //Function will calculate the string value from the text input. It is a recursive function
             "calculate": function(str) {
                 var regexMulti = /^(\d+\.\d+[*\/]\d+\.\d+)|(\d+[*\/]\d+\.\d+)|(\d+\.\d+[*\/]\d+)|(\d+[*\/]\d+)/; //this regex works for multiple and divide including decimals
                 var regexPlus = /^(\d+\.\d+[+-]\d+\.\d+)|(\d+[+-]\d+\.\d+)|(\d+\.\d+[+-]\d+)|(\d+[+-]\d+)/; // << works for plus and minus including decimals
@@ -84,6 +91,7 @@
                     input.dot = true;
                 }
             },
+            //Enter button will call the calculate function (which calls the Evaluate function) and updates the text input
             "enterButton": function() {
                 var idx = input.inputText.value.length - 1;
                 var inputText = input.inputText.value;
@@ -94,9 +102,12 @@
                     this.calculate(inputText);
                 }
             },
+            //clears the text input
             "clear": function() {
                 input.inputText.value = "";
             },
+            //adds the expression and answer to an object. If the history is greater then 1 it will show otherwise it will hide.
+            //Also adds a function to each item in the array.
             "populateHistory": function() {
                 if (input.history.list.length) {
                     var elem = document.createElement("li");
@@ -110,16 +121,18 @@
                     input.history.element.classList.add('hidden');
                 }
             },
+            //Deletes the history array
             "clearHistory": function() {
                 input.history.list = [];
                 input.history.element.innerHTML = '';
                 this.populateHistory();
             },
+            //The function will add the answer to the text input so that it can be calculated
             "addHistoryAnswer": function(ans) {
                 input.inputText.value = ans;
             }
         }
-        //event listener for input focus
+        //event listener for input focus and keypad presses
     input.inputText.addEventListener('keypress', function(event) {
             var e = event.keyCode;
             var str = event.key;
@@ -132,10 +145,11 @@
                 document.CleanCalculator.enterButton();
             }
         })
-        // chan
-        // window.addEventListener('keydown', function(event) {
-        //     input.inputText.focus();
-        // })
+        // changes the focus of the window to the text input
+    window.addEventListener('keydown', function(event) {
+        input.inputText.focus();
+    })
+    //All the button event listeners
     btnExps.forEach(function(btn) {
         btn.addEventListener('click', function() {
             document.CleanCalculator.btnOptP(btn.getAttribute('data-expr'));
