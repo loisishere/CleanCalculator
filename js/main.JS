@@ -1,10 +1,12 @@
-(function (document) {
-    'use strict;'
-    // has the details include the answer the history and the operators
+(function(document) {
+    'use strict';
+    // has the details include the answer the history and the operators, this information should not be in the global calculator
     var input = {
         "ans": false,
-        "history": {"element": document.querySelector('.history'),
-        "list":[]},
+        "history": {
+            "element": document.querySelector('.history'),
+            "list": []
+        },
         "operators": {
             "43": "add",
             "45": "sub",
@@ -13,14 +15,14 @@
             "46": "dot"
         },
         "inputText": document.querySelector('.calculator__input'),
-        "operatorButtons": function (exp) {
+        "operatorButtons": function(exp) {
             return document.querySelector('button[data-calc=' + exp + ']');
         },
         "dot": true
     };
     //Holds all the functions for the calculator including key presses and button presses
-    document.cleanCalculator = {
-        "buttonNumberPresses": function (num) {
+    document.CleanCalculator = {
+        "btnNumP": function(num) {
             if (input.ans) {
                 input.inputText.value = num;
                 input.ans = false;
@@ -33,7 +35,7 @@
                 }
             }
         },
-        "buttonOperatorPresses": function (exp) {
+        "btnOptP": function(exp) {
             var op = input.operatorButtons(exp);
             var idx = input.inputText.value.length - 1;
             input.ans = false;
@@ -53,20 +55,20 @@
                 }
             }
         },
-        "evaluateAnswer": function (str) {
+        "evaluateAnswer": function(str) {
             str = str.split(/([*-+\/])/g);
             return str.indexOf("*") > 0 ? Number(str[0]) * Number(str[2]) : str.indexOf("/") > 0 ? Number(str[0]) / Number(str[2]) : str.indexOf("+") > 0 ? Number(str[0]) + Number(str[2]) : str.indexOf("-") > 0 ? Number(str[0]) - Number(str[2]) : null;
         },
-        "calculate": function (str) {
+        "calculate": function(str) {
             var regexMulti = /^(\d+\.\d+[*\/]\d+\.\d+)|(\d+[*\/]\d+\.\d+)|(\d+\.\d+[*\/]\d+)|(\d+[*\/]\d+)/; //this regex works for multiple and divide including decimals
             var regexPlus = /^(\d+\.\d+[+-]\d+\.\d+)|(\d+[+-]\d+\.\d+)|(\d+\.\d+[+-]\d+)|(\d+[+-]\d+)/; // << works for plus and minus including decimals
             if (regexMulti.test(str)) {
-                var exp = regexMulti.exec(str).filter(function (a) { return a !== undefined ? a : '' }).pop();
+                var exp = regexMulti.exec(str).filter(function(a) { return a !== undefined ? a : '' }).pop();
                 var ans = this.evaluateAnswer(exp);
                 str = str.replace(exp, ans);
                 this.calculate(str);
             } else if (regexPlus.test(str)) {
-                var exp = regexPlus.exec(str).filter(function (a) { return a !== undefined ? a : '' }).pop();
+                var exp = regexPlus.exec(str).filter(function(a) { return a !== undefined ? a : '' }).pop();
                 var ans = this.evaluateAnswer(exp);
                 str = str.replace(exp, ans);
                 this.calculate(str);
@@ -78,7 +80,7 @@
                 input.dot = true;
             }
         },
-        "enterButton": function () {
+        "enterButton": function() {
             var idx = input.inputText.value.length - 1;
             var inputText = input.inputText.value;
             if (isNaN(input.inputText.value[idx])) {
@@ -88,41 +90,44 @@
                 this.calculate(inputText);
             }
         },
-        "clear":function(){
-            input.inputText.value ="";
+        "clear": function() {
+            input.inputText.value = "";
         },
-        "populateHistory":function(){
-            if(input.history.list.length){
+        "populateHistory": function() {
+            if (input.history.list.length) {
                 var elem = document.createElement("li");
-                var idx = input.history.list.length-1;
+                var idx = input.history.list.length - 1;
                 input.history.element.classList.remove('hidden');
                 elem.className = "history__details";
-                elem.setAttribute('onclick','cleanCalculator.addHistoryAnswer('+input.history.list[idx].answer+')');
-                elem.innerHTML = "Ans: "+ input.history.list[idx].expression +" = " + input.history.list[idx].answer;
+                elem.setAttribute('onclick', 'CleanCalculator.addHistoryAnswer(' + input.history.list[idx].answer + ')');
+                elem.innerHTML = "Ans: " + input.history.list[idx].expression + " = " + input.history.list[idx].answer;
                 input.history.element.appendChild(elem);
-            }else{
+            } else {
                 input.history.element.classList.add('hidden');
             }
         },
-        "clearHistory": function(){
+        "clearHistory": function() {
             input.history.list = [];
-            input.history.element.innerHTML ='';
+            input.history.element.innerHTML = '';
             this.populateHistory();
         },
-        "addHistoryAnswer":function(ans){
-input.inputText.value = ans;
+        "addHistoryAnswer": function(ans) {
+            input.inputText.value = ans;
         }
     }
-    input.inputText.addEventListener('keypress', function (event) {
+    input.inputText.addEventListener('keypress', function(event) {
         var e = event.keyCode;
         var str = event.key;
         if (e >= 48 && e < 58) {
-            document.cleanCalculator.buttonNumberPresses(str);
+            document.CleanCalculator.btnNumP(str);
         } else if ((e >= 42 && e < 48) || e === 46) {
-            document.cleanCalculator.buttonOperatorPresses(input.operators[e.toString()]);
+            document.CleanCalculator.btnOptP(input.operators[e.toString()]);
         }
         if (e === 13) {
-            document.cleanCalculator.enterButton();
+            document.CleanCalculator.enterButton();
         }
+    })
+    window.addEventListener('keydown', function(event) {
+        input.inputText.focus();
     })
 })(document);

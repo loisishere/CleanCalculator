@@ -1,50 +1,146 @@
-body,html{
-width: 100%;
-    text-align: center;
-    height: auto;
-    background-color: lightblue;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-    margin: 0px auto;
-}
-.head {
-    width: 500px;
-    margin: 0px auto;
-}
-.head__title {
-    font-size: 2rem;
-    color: rgb(0, 59, 101);
-    font-weight: bolder;
-    text-transform: uppercase;
-}
-.head__detail {
-    color: whitesmoke;
-    font-weight: lighter;
-}
-.calculator {
-    width: 500px;
-    display: inline-block;
-    margin: 0px auto;
-}
-.calculator__input {
-    width: 100%;
-    background-color: whitesmoke;
-    min-height: 50px;
-    font-weight: bolder;
-    font-size: 1.7rem;
-    text-align: right;
-    border-style: none;
-    border-bottom: 1px solid darkblue;
-}
-.calculator--btn {
-    background-color: rgb(4, 42, 57);
-    color: lightblue;
-    border: none;
-    padding: 10px 20px;
-    margin: 0px;
-}
-.history__details {
-    list-style: none;
-}
-.hidden {
-    display: none;
-}
+    body,
+    html {
+        text-align: center;
+        height: auto;
+        background-color: rgb(230, 230, 235);
+        font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        margin: 0 auto;
+    }
+    
+    h2 {
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+    
+    .head {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .head__title {
+        font-size: 2.5rem;
+        color: rgb(0, 59, 101);
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+    
+    .head__detail {
+        color: lightblue;
+        font-weight: lighter;
+    }
+    
+    .head__statement {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .calculator {
+        width: 100%;
+        height: auto;
+    }
+    
+    .calculator__input {
+        width: 100%;
+        background-color: whitesmoke;
+        min-height: 50px;
+        font-weight: bolder;
+        font-size: 1.7rem;
+        text-align: right;
+        border-style: none;
+        border-bottom: 1px solid darkblue;
+    }
+    
+    .calculator__btn {
+        background-color: rgb(4, 42, 57);
+        color: lightblue;
+        float: left;
+        font-size: 1.5rem;
+        width: 33.333%;
+        padding: 5% 0%;
+        margin: 0px;
+    }
+    
+    .btn--clear,
+    .btn--enter {
+        width: 100%;
+    }
+    
+    .btn--operator {
+        width: 20%;
+    }
+    
+    .history__details {
+        list-style: none;
+    }
+    
+    .history__btn {
+        background-color: rgb(4, 42, 57);
+        color: lightblue;
+    }
+    
+    .hidden {
+        display: none;
+    }
+    
+    @media (min-width:780px) {
+        .head {
+            width: 31.75rem;
+            margin: 0px auto;
+        }
+        .head__title {
+            font-size: 2rem;
+            color: rgb(0, 59, 101);
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
+        .head__detail {
+            color: rgb(240, 240, 255);
+            font-weight: lighter;
+            text-shadow: 0px 1px rgba(4, 42, 57, .3);
+        }
+        .head__statement {
+            font-size: .75rem;
+        }
+        .calculator {
+            width: 31.25rem;
+            height: 10rem;
+            display: block;
+            margin: 0px auto;
+        }
+        .calculator__input {
+            width: 100%;
+            background-color: whitesmoke;
+            min-height: 50px;
+            font-weight: bolder;
+            font-size: 1.7rem;
+            text-align: right;
+            border-style: none;
+            border-bottom: 1px solid darkblue;
+        }
+        .calculator__btn {
+            background-color: rgb(4, 42, 57);
+            color: lightblue;
+            float: left;
+            font-size: 1.5rem;
+            width: 33.333%;
+            padding: 5% 0%;
+            margin: 0px;
+        }
+        .btn--clear,
+        .btn--enter {
+            width: 100%;
+        }
+        .btn--operator {
+            width: 20%;
+        }
+        .history__details {
+            list-style: none;
+        }
+        .history__btn {
+            background-color: rgb(4, 42, 57);
+            color: lightblue;
+        }
+        .hidden {
+            display: none;
+        }
+    }
