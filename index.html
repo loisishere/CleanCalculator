@@ -16,26 +16,26 @@
     </header>
     <div class="calculator">
         <input type="text" class="calculator__input" readonly></input>
-        <button class="calculator__btn btn--clear" data-calc="clear" onclick="CleanCalculator.clear()">Clear</button>
-        <button class="calculator__btn btn--operator" data-calc="dot" onclick="CleanCalculator.btnOptP('dot')">.</button>
-        <button class="calculator__btn btn--operator" data-calc="add" onclick="CleanCalculator.btnOptP('add')">+</button>
-        <button class="calculator__btn btn--operator" data-calc="sub" onclick="CleanCalculator.btnOptP('sub')">-</button>
-        <button class="calculator__btn btn--operator" data-calc="multi" onclick="CleanCalculator.btnOptP('multi')">*</button>
-        <button class="calculator__btn btn--operator" data-calc="divide" onclick="CleanCalculator.btnOptP('divide')">/</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(7)">7</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(8)">8</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(9)">9</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(4)">4</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(5)">5</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(6)">6</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(1)">1</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(2)">2</button>
-        <button class="calculator__btn btn--num" onclick="CleanCalculator.btnNumP(3)">3</button>
-        <button class="calculator__btn btn--enter" data-calc="enter" onclick="CleanCalculator.enterButton()">Enter</button>
+        <button class="calculator__btn btn--clear" data-clear>Clear</button>
+        <button class="calculator__btn btn--operator" data-expr="dot">.</button>
+        <button class="calculator__btn btn--operator" data-expr="add">+</button>
+        <button class="calculator__btn btn--operator" data-expr="sub">-</button>
+        <button class="calculator__btn btn--operator" data-expr="multi">*</button>
+        <button class="calculator__btn btn--operator" data-expr="divide">/</button>
+        <button class="calculator__btn btn--num" data-calc="7">7</button>
+        <button class="calculator__btn btn--num" data-calc="8">8</button>
+        <button class="calculator__btn btn--num" data-calc="9">9</button>
+        <button class="calculator__btn btn--num" data-calc="4">4</button>
+        <button class="calculator__btn btn--num" data-calc="5">5</button>
+        <button class="calculator__btn btn--num" data-calc="6">6</button>
+        <button class="calculator__btn btn--num" data-calc="1">1</button>
+        <button class="calculator__btn btn--num" data-calc="2">2</button>
+        <button class="calculator__btn btn--num" data-calc="3">3</button>
+        <button class="calculator__btn btn--enter" data-calcEnter>Enter</button>
     </div>
     <div class="history hidden">
         History <button class="show"></button>
-        <button class="history__btn" onclick="CleanCalculator.clearHistory()">Clear History</button>
+        <button class="history__btn" data-clearHistory>Clear History</button>
         <ul class="history__info">
         </ul>
 

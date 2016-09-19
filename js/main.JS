@@ -16,118 +16,143 @@
         },
         "inputText": document.querySelector('.calculator__input'),
         "operatorButtons": function(exp) {
-            return document.querySelector('button[data-calc=' + exp + ']');
+            return document.querySelector('button[data-expr=' + exp + ']');
         },
         "dot": true
     };
+    var btnExps = Array.from(input.inputText.parentNode.querySelectorAll('[data-expr]'));
+    var btnNum = Array.from(input.inputText.parentNode.querySelectorAll('[data-calc]'));
+    var enterBtn = input.inputText.parentNode.querySelector('[data-calcEnter]');
+    var clearBtn = input.inputText.parentNode.querySelector('[data-clear]');
+    var clearHistoryBtn = input.inputText.parentNode.parentNode.querySelector('[data-clearHistory]');
     //Holds all the functions for the calculator including key presses and button presses
     document.CleanCalculator = {
-        "btnNumP": function(num) {
-            if (input.ans) {
-                input.inputText.value = num;
-                input.ans = false;
-
-            } else {
-                if (input.inputText.value === "") {
+            "btnNumP": function(num) {
+                if (input.ans) {
                     input.inputText.value = num;
+                    input.ans = false;
+
                 } else {
-                    input.inputText.value += num;
+                    if (input.inputText.value === "") {
+                        input.inputText.value = num;
+                    } else {
+                        input.inputText.value += num;
+                    }
                 }
-            }
-        },
-        "btnOptP": function(exp) {
-            var op = input.operatorButtons(exp);
-            var idx = input.inputText.value.length - 1;
-            input.ans = false;
-            console.log(input.dot);
-            if (input.dot && exp === "dot" && !isNaN(input.inputText.value[idx])) {
-                input.inputText.value += '.';
-                input.dot = false;
-            }
-            if (exp !== "dot") {
+            },
+            "btnOptP": function(exp) {
+                var op = input.operatorButtons(exp);
+                var idx = input.inputText.value.length - 1;
+                input.ans = false;
+                if (input.dot && exp === "dot" && !isNaN(input.inputText.value[idx])) {
+                    input.inputText.value += '.';
+                    input.dot = false;
+                }
+                if (exp !== "dot") {
+                    if (isNaN(input.inputText.value[idx])) {
+                        input.inputText.value = input.inputText.value.split('').splice(0, idx).join('');
+                        input.inputText.value += op.textContent;
+                        input.dot = true;
+                    } else {
+                        input.inputText.value += op.textContent;
+                        input.dot = true;
+                    }
+                }
+            },
+            "evaluateAnswer": function(str) {
+                str = str.split(/([*-+\/])/g);
+                return str.indexOf("*") > 0 ? Number(str[0]) * Number(str[2]) : str.indexOf("/") > 0 ? Number(str[0]) / Number(str[2]) : str.indexOf("+") > 0 ? Number(str[0]) + Number(str[2]) : str.indexOf("-") > 0 ? Number(str[0]) - Number(str[2]) : null;
+            },
+            "calculate": function(str) {
+                var regexMulti = /^(\d+\.\d+[*\/]\d+\.\d+)|(\d+[*\/]\d+\.\d+)|(\d+\.\d+[*\/]\d+)|(\d+[*\/]\d+)/; //this regex works for multiple and divide including decimals
+                var regexPlus = /^(\d+\.\d+[+-]\d+\.\d+)|(\d+[+-]\d+\.\d+)|(\d+\.\d+[+-]\d+)|(\d+[+-]\d+)/; // << works for plus and minus including decimals
+                if (regexMulti.test(str)) {
+                    var exp = regexMulti.exec(str).filter(function(a) { return a !== undefined ? a : '' }).pop();
+                    var ans = this.evaluateAnswer(exp);
+                    str = str.replace(exp, ans);
+                    this.calculate(str);
+                } else if (regexPlus.test(str)) {
+                    var exp = regexPlus.exec(str).filter(function(a) { return a !== undefined ? a : '' }).pop();
+                    var ans = this.evaluateAnswer(exp);
+                    str = str.replace(exp, ans);
+                    this.calculate(str);
+                } else {
+                    input.ans = str;
+                    input.history.list.push({ "expression": input.inputText.value, "answer": str });
+                    input.inputText.value = str;
+                    this.populateHistory();
+                    input.dot = true;
+                }
+            },
+            "enterButton": function() {
+                var idx = input.inputText.value.length - 1;
+                var inputText = input.inputText.value;
                 if (isNaN(input.inputText.value[idx])) {
-                    input.inputText.value = input.inputText.value.split('').splice(0, idx).join('');
-                    input.inputText.value += op.textContent;
-                    input.dot = true;
+                    inputText = inputText.split('').splice(0, idx).join('');
+                    this.calculate(inputText);
                 } else {
-                    input.inputText.value += op.textContent;
-                    input.dot = true;
+                    this.calculate(inputText);
                 }
-            }
-        },
-        "evaluateAnswer": function(str) {
-            str = str.split(/([*-+\/])/g);
-            return str.indexOf("*") > 0 ? Number(str[0]) * Number(str[2]) : str.indexOf("/") > 0 ? Number(str[0]) / Number(str[2]) : str.indexOf("+") > 0 ? Number(str[0]) + Number(str[2]) : str.indexOf("-") > 0 ? Number(str[0]) - Number(str[2]) : null;
-        },
-        "calculate": function(str) {
-            var regexMulti = /^(\d+\.\d+[*\/]\d+\.\d+)|(\d+[*\/]\d+\.\d+)|(\d+\.\d+[*\/]\d+)|(\d+[*\/]\d+)/; //this regex works for multiple and divide including decimals
-            var regexPlus = /^(\d+\.\d+[+-]\d+\.\d+)|(\d+[+-]\d+\.\d+)|(\d+\.\d+[+-]\d+)|(\d+[+-]\d+)/; // << works for plus and minus including decimals
-            if (regexMulti.test(str)) {
-                var exp = regexMulti.exec(str).filter(function(a) { return a !== undefined ? a : '' }).pop();
-                var ans = this.evaluateAnswer(exp);
-                str = str.replace(exp, ans);
-                this.calculate(str);
-            } else if (regexPlus.test(str)) {
-                var exp = regexPlus.exec(str).filter(function(a) { return a !== undefined ? a : '' }).pop();
-                var ans = this.evaluateAnswer(exp);
-                str = str.replace(exp, ans);
-                this.calculate(str);
-            } else {
-                input.ans = str;
-                input.history.list.push({ "expression": input.inputText.value, "answer": str });
-                input.inputText.value = str;
+            },
+            "clear": function() {
+                input.inputText.value = "";
+            },
+            "populateHistory": function() {
+                if (input.history.list.length) {
+                    var elem = document.createElement("li");
+                    var idx = input.history.list.length - 1;
+                    input.history.element.classList.remove('hidden');
+                    elem.className = "history__details";
+                    elem.setAttribute('onclick', 'document.CleanCalculator.addHistoryAnswer(' + input.history.list[idx].answer + ')');
+                    elem.innerHTML = "Ans: " + input.history.list[idx].expression + " = " + input.history.list[idx].answer;
+                    input.history.element.appendChild(elem);
+                } else {
+                    input.history.element.classList.add('hidden');
+                }
+            },
+            "clearHistory": function() {
+                input.history.list = [];
+                input.history.element.innerHTML = '';
                 this.populateHistory();
-                input.dot = true;
+            },
+            "addHistoryAnswer": function(ans) {
+                input.inputText.value = ans;
             }
-        },
-        "enterButton": function() {
-            var idx = input.inputText.value.length - 1;
-            var inputText = input.inputText.value;
-            if (isNaN(input.inputText.value[idx])) {
-                inputText = inputText.split('').splice(0, idx).join('');
-                this.calculate(inputText);
-            } else {
-                this.calculate(inputText);
-            }
-        },
-        "clear": function() {
-            input.inputText.value = "";
-        },
-        "populateHistory": function() {
-            if (input.history.list.length) {
-                var elem = document.createElement("li");
-                var idx = input.history.list.length - 1;
-                input.history.element.classList.remove('hidden');
-                elem.className = "history__details";
-                elem.setAttribute('onclick', 'CleanCalculator.addHistoryAnswer(' + input.history.list[idx].answer + ')');
-                elem.innerHTML = "Ans: " + input.history.list[idx].expression + " = " + input.history.list[idx].answer;
-                input.history.element.appendChild(elem);
-            } else {
-                input.history.element.classList.add('hidden');
-            }
-        },
-        "clearHistory": function() {
-            input.history.list = [];
-            input.history.element.innerHTML = '';
-            this.populateHistory();
-        },
-        "addHistoryAnswer": function(ans) {
-            input.inputText.value = ans;
         }
-    }
+        //event listener for input focus
     input.inputText.addEventListener('keypress', function(event) {
-        var e = event.keyCode;
-        var str = event.key;
-        if (e >= 48 && e < 58) {
-            document.CleanCalculator.btnNumP(str);
-        } else if ((e >= 42 && e < 48) || e === 46) {
-            document.CleanCalculator.btnOptP(input.operators[e.toString()]);
-        }
-        if (e === 13) {
-            document.CleanCalculator.enterButton();
-        }
+            var e = event.keyCode;
+            var str = event.key;
+            if (e >= 48 && e < 58) {
+                document.CleanCalculator.btnNumP(str);
+            } else if ((e >= 42 && e < 48) || e === 46) {
+                document.CleanCalculator.btnOptP(input.operators[e.toString()]);
+            }
+            if (e === 13) {
+                document.CleanCalculator.enterButton();
+            }
+        })
+        // chan
+        // window.addEventListener('keydown', function(event) {
+        //     input.inputText.focus();
+        // })
+    btnExps.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.CleanCalculator.btnOptP(btn.getAttribute('data-expr'));
+        })
+    });
+    btnNum.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.CleanCalculator.btnNumP(btn.getAttribute('data-calc'));
+        })
+    });
+    clearBtn.addEventListener('click', function() {
+        document.CleanCalculator.clear();
     })
-    window.addEventListener('keydown', function(event) {
-        input.inputText.focus();
-    })
+    enterBtn.addEventListener('click', function() {
+        document.CleanCalculator.enterButton();
+    });
+    clearHistoryBtn.addEventListener('click', function() {
+        document.CleanCalculator.clearHistory();
+    });
 })(document);
