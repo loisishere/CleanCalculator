@@ -147,22 +147,22 @@
         })
         // changes the focus of the window to the text input
     window.addEventListener('keydown', function(event) {
-        input.inputText.focus();
-    })
-    //All the button event listeners
+            input.inputText.focus();
+        })
+        //All the button event listeners
     btnExps.forEach(function(btn) {
         btn.addEventListener('click', function() {
-            document.CleanCalculator.btnOptP(btn.getAttribute('data-expr'));
+            document.CleanCalculator.btnOptP(btn.dataset.expr);
         })
     });
     btnNum.forEach(function(btn) {
         btn.addEventListener('click', function() {
-            document.CleanCalculator.btnNumP(btn.getAttribute('data-calc'));
+            document.CleanCalculator.btnNumP(btn.dataset.calc);
         })
     });
     clearBtn.addEventListener('click', function() {
         document.CleanCalculator.clear();
-    })
+    });
     enterBtn.addEventListener('click', function() {
         document.CleanCalculator.enterButton();
     });
